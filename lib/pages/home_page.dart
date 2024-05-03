@@ -6,12 +6,38 @@ import '../model/cart_model.dart';
 import 'cart_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({Key? key}) : super(key: key ?? ValueKey('HomePage'));
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String _greeting = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _setGreeting();
+  }
+
+  void _setGreeting() {
+    var hour = DateTime.now().hour;
+    if (hour >= 0 && hour < 12) {
+      setState(() {
+        _greeting = 'Good morning,';
+      });
+    } else if (hour >= 12 && hour < 16) {
+      setState(() {
+        _greeting = 'Good afternoon,';
+      });
+    } else {
+      setState(() {
+        _greeting = 'Good evening,';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         title: Text(
-          'Anand , India',
+          'Anand, India',
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[700],
@@ -51,7 +77,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -62,72 +88,67 @@ class _HomePageState extends State<HomePage> {
         ),
         child: const Icon(Icons.shopping_bag),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 48),
-          // good morning bro
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            child: Text('Good morning,'),
-          ),
-          const SizedBox(height: 4),
-          // Let's order fresh items for you
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Text(
-              "Let's order fresh items for you",
-              style: GoogleFonts.notoSerif(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            child: Divider(),
-          ),
-
-          const SizedBox(height: 24),
-
-          // categories -> horizontal listview
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Text(
-              "Fresh Items",
-              style: GoogleFonts.notoSerif(
-                //fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          ),
-
-          // recent orders -> show last 3
-          Expanded(
-            child: Consumer<CartModel>(
-              builder: (context, value, child) {
-                return GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: value.shopItems.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1 / 1.2,
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 48),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(_greeting),
+                ),
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    "Let's order fresh items for you",
+                    style: GoogleFonts.notoSerif(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  itemBuilder: (context, index) {
-                    return GroceryItemTile(
-                      itemName: value.shopItems[index][0],
-                      itemPrice: value.shopItems[index][1],
-                      imagePath: value.shopItems[index][2],
-                      color: value.shopItems[index][3],
-                      onPressed: () =>
-                          Provider.of<CartModel>(context, listen: false)
-                              .addItemToCart(index),
-                    );
-                  },
+                ),
+                const SizedBox(height: 24),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Divider(),
+                ),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    "Fresh Items",
+                    style: GoogleFonts.notoSerif(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(12),
+            sliver: Consumer<CartModel>(
+              builder: (context, value, child) {
+                return SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7, // Adjust this value to make the cards smaller
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return GroceryItemTile(
+                        itemName: value.shopItems[index][0],
+                        itemPrice: value.shopItems[index][1],
+                        imagePath: value.shopItems[index][2],
+                        color: value.shopItems[index][3],
+                        onPressed: () => Provider.of<CartModel>(context, listen: false).addItemToCart(index),
+                      );
+                    },
+                    childCount: value.shopItems.length,
+                  ),
                 );
               },
             ),

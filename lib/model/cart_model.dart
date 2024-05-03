@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 class CartModel extends ChangeNotifier {
   // list of items on sale
-  final List _shopItems = const [
-    // [ itemName, itemPrice, imagePath, color ]
-    ["Avocado", "40.00", "lib/images/avocado.png", Colors.green],
-    ["Banana", "20.50", "lib/images/banana.png", Colors.yellow],
-    ["Chicken", "12.80", "lib/images/chicken.png", Colors.brown],
-    ["Water", "25.00", "lib/images/water.png", Colors.blue],
-  ];
+
+final List _shopItems = const [
+  // [ itemName, itemPrice, imagePath, color ]
+  ["Avocado", "400.00", "lib/images/avocado.png", Colors.green],
+  ["Banana", "20.00", "lib/images/banana.png", Colors.yellow],
+  ["Nutella", "100.00", "lib/images/nutella.png", Colors.brown],
+  ["Water", "20.00", "lib/images/water.png", Colors.blue],
+   ["Cake", "500.00", "lib/images/cake.png", Colors.pinkAccent],
+];
+
+
 
   // list of cart items
   List _cartItems = [];
@@ -34,7 +38,7 @@ String calculateTotal() {
   for (int i = 0; i < cartItems.length; i++) {
     totalPrice += double.parse(cartItems[i][1]);
   }
-  return '${totalPrice.toStringAsFixed(2)}'; // Displaying with ₹ symbol
+  return ' ${totalPrice.toStringAsFixed(2)}'; 
 }
 
 }
