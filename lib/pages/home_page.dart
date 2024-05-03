@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.grey[700],
           ),
         ),
-        centerTitle: false,
+        centerTitle: false,//left
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 24.0),

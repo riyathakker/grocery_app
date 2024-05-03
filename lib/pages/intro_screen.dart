@@ -12,7 +12,7 @@ class IntroScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // big logo
+            
             Padding(
               padding: const EdgeInsets.only(
                 left: 100.0,
@@ -23,7 +23,6 @@ class IntroScreen extends StatelessWidget {
               
             ),
 
-            // we deliver groceries at your doorstep
             Padding(
               padding: const EdgeInsets.all(28.0),
               child: Text(
@@ -34,7 +33,7 @@ class IntroScreen extends StatelessWidget {
               ),
             ),
 
-            // groceree gives you fresh vegetables and fruits
+          
             Text(
               'Fresh items everyday',
               textAlign: TextAlign.center,
@@ -45,10 +44,7 @@ class IntroScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 24),
-
-            const Spacer(),
-
-            // get started button
+            const Spacer(),//vertical space
             GestureDetector(
               onTap: () => Navigator.pushReplacement(
                 context,
@@ -58,7 +54,7 @@ class IntroScreen extends StatelessWidget {
                   },
                 ),
               ),
-              child: Container(
+              child: Container(//button
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
@@ -68,7 +64,7 @@ class IntroScreen extends StatelessWidget {
                   "Get Started",
                   style: TextStyle(
                     color: Colors.white,
-                    // fontWeight: FontWeight.bold,
+                    
                     fontSize: 16,
                   ),
                 ),

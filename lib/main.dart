@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider( //manage state
       create: (context) => CartModel(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
